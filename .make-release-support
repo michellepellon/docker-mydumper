@@ -1,0 +1,25 @@
+function getRelease() {
+    awk -F= '/^release=/{print $2}' .release
+}
+
+function getRelease() {
+	awk -F= '/^release=/{print $2}' .release
+}
+
+function getBaseTag() {
+    sed -n -e "s/^tag=\(.*\)$(getRelease)\$/\1/p" .release
+}
+
+function getTag() {
+    if [ -z "$1" ] ; then
+        awk -F= '/^tag/{print $2}' .release
+    else
+        echo "$(getBaseTag)$1"
+    fi
+}
+
+function getVersion() {
+    result=$(getRelease)
+
+    echo $result
+}
